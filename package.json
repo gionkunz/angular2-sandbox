@@ -1,0 +1,15 @@
+{
+  "name": "angular2-sandbox",
+  "version": "0.0.1",
+  "description": "A very simple sandbox to get your hands dirty with AngularJS 2.0 Alpha",
+  "main": "Gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Gion Kunz",
+  "license": "WTFPL",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-connect": "^2.2.0"
+  }
+}

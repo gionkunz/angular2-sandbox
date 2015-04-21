@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AngularJS 2 - Sandbox</title>
+  <script src="vendor/traceur-runtime.js"></script>
+  <script src="vendor/system@0.16.7.js"></script>
+  <script src="vendor/angular2.js"></script>
+</head>
+<body>
+
+<ng2-sandbox></ng2-sandbox>
+
+<script>
+  System.config({
+    traceurOptions: {
+      annotations: true,
+      memberVariables: true,
+      types: true,
+      typeAssertions: true,
+      typeAssertionModule: './vendor/rtts_assert'
+    },
+    paths: {
+      '*': '*.js',
+      'angular2/*': 'angular2/*'
+    }
+  });
+  System.import('./main.es6');
+</script>
+</body>
+
+</html>
