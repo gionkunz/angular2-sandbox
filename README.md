@@ -24,7 +24,7 @@ After cloning the repository do:
 ```
 cd angular2-sandbox
 npm install
-grunt
+gulp
 ```
 
 Start hacking and enjoy!
