@@ -14,12 +14,15 @@ import {Component, View, bootstrap} from 'angular2/angular2';
   `
 })
 class App {
+  greeting:string;
+  name:string;
+
   constructor() {
     this.greeting = 'Hello';
     this.name = 'World';
   }
 
-  setName(name) {
+  setName(name:string) {
     this.name = name;
   }
 }
