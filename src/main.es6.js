@@ -1,26 +1,29 @@
 import {Component, View, bootstrap} from 'angular2/angular2';
 
-function App() {
-  this.greeting = 'Hello';
-  this.name = 'World';
-}
+class App {
+  constructor() {
+    this.greeting = 'Hello';
+    this.name = 'World';
+  }
 
-App.prototype.setName = function(name) {
-  this.name = name;
-};
+  setName(name) {
+    this.name = name;
+  }
+}
 
 App.annotations = [
   new Component({
     selector: 'ng2-sandbox'
   }),
   new View({
-    template:
-      '<section role="main">' +
-        '<h1>{{ greeting }}, {{ name }}!</h1>' +
-        '<label for="name">Your Name:' +
-          '<input type="text" [value]="name" (keyup)="setName($event.target.value)"/>' +
-        '</label>' +
-      '</section>'
+    template:`
+      <section role="main">
+        <h1>{{ greeting }}, {{ name }}!</h1>
+        <label for="name">Your Name:
+          <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
+        </label>
+      </section>
+    `
   })
 ];
 
