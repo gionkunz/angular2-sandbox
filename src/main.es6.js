@@ -1,5 +1,18 @@
 import {Component, View, bootstrap} from 'angular2/angular2';
 
+@Component({
+  selector: 'ng2-sandbox'
+})
+@View({
+  template:`
+    <section role="main">
+      <h1>{{ greeting }}, {{ name }}!</h1>
+      <label for="name">Your Name:
+        <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
+      </label>
+    </section>
+  `
+})
 class App {
   constructor() {
     this.greeting = 'Hello';
@@ -8,24 +21,6 @@ class App {
 
   setName(name) {
     this.name = name;
-  }
-
-  static get annotations() {
-    return [
-      new Component({
-        selector: 'ng2-sandbox'
-      }),
-      new View({
-        template:`
-          <section role="main">
-            <h1>{{ greeting }}, {{ name }}!</h1>
-            <label for="name">Your Name:
-              <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
-            </label>
-          </section>
-        `
-      })
-    ];
   }
 }
 
