@@ -1,30 +1,47 @@
-import {Component, View, bootstrap} from 'angular2/angular2';
+import {For, Component, Decorator, View, bootstrap} from 'angular2/angular2';
+import {EventEmitter, ObservableWrapper} from 'angular2/src/facade/async';
+
+import {TodoService} from './todo-service.es6';
+import {TodoTaskComponent} from './todo-task-component.es6';
 
 @Component({
-  selector: 'ng2-sandbox'
+  selector: 'todo-app',
+  injectables: [TodoService]
 })
 @View({
   template: `
     <section role="main">
-      <h1>{{ greeting }}, {{ name }}!</h1>
-      <label for="name">Your Name:
-        <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
-      </label>
+      <h1>Todos <small>({{ todoService.items.length }})</small></h1>
+      <input type="text" #new-todo (keyup) placeholder="Add new todo"/>
+      <button (click)="addTodo(newTodo.value)">Add</button>
+      <ul>
+        <li *for="#item of todoService.items">
+          <todo-task [done]="item.done" [text]="item.name" (status-change)="toggleDone(item)"></todo-task>
+          <button (click)="removeTodo(item)">x</button>
+        </li>
+      </ul>
     </section>
-  `
+  `,
+  directives: [For, TodoTaskComponent]
 })
-class App {
-  greeting:string;
-  name:string;
+class TodoApp {
+  todoService:TodoService;
 
-  constructor() {
-    this.greeting = 'Hello';
-    this.name = 'World';
+  constructor(todoService:TodoService) {
+    this.todoService = todoService;
   }
 
-  setName(name) {
-    this.name = name;
+  addTodo(name:string) {
+    this.todoService.addItem(name);
+  }
+
+  removeTodo(item:Object) {
+    this.todoService.removeItem(item);
+  }
+
+  toggleDone(item:Object) {
+    item.done = !item.done;
   }
 }
 
-bootstrap(App);
+bootstrap(TodoApp);
