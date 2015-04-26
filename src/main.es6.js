@@ -1,30 +1,42 @@
-import {Component, View, bootstrap} from 'angular2/angular2';
+import {Decorator, Component, View, bootstrap} from 'angular2/angular2';
 
 @Component({
-  selector: 'ng2-sandbox'
+  selector: '[event-test-component]',
+  hostListeners: {
+    'click': 'onClick($event)',
+    'window:resize': 'onResize($event)'
+  }
 })
 @View({
   template: `
-    <section role="main">
-      <h1>{{ greeting }}, {{ name }}!</h1>
-      <label for="name">Your Name:
-        <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
-      </label>
-    </section>
+    <h1>Your Window Size</h1>
+    <div>{{windowSize}}</div>
   `
 })
-class App {
-  greeting:string;
-  name:string;
+class EventTestComponent {
+  windowSize:number = 0;
 
-  constructor() {
-    this.greeting = 'Hello';
-    this.name = 'World';
+  onResize() {
+    this.windowSize = window.innerWidth;
   }
 
-  setName(name) {
-    this.name = name;
+  onClick(event) {
+    window.alert(`You clicked me at ${event.clientX},${event.clientY}!`);
   }
 }
+
+@Component({
+  selector: 'ng2-sandbox',
+  hostListeners: {
+    'window:resize': 'onResize($event)'
+  }
+})
+@View({
+  template: `
+    <div event-test-component></div>
+  `,
+  directives: [EventTestComponent]
+})
+class App {}
 
 bootstrap(App);
