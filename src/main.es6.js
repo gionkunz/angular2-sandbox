@@ -1,29 +1,43 @@
 import {Component, View, bootstrap} from 'angular2/angular2';
+import {Inject} from 'angular2/di';
+
+class ValueStore {
+  values:Array<number>;
+
+  constructor() {
+    this.values = [1, 2, 3, 4];
+  }
+}
+
+class ValueService {
+  valueStore:ValueStore;
+
+  constructor(@Inject(ValueStore) valueStore:ValueStore) {
+    this.valueStore = valueStore;
+  }
+
+  getReversedValues() {
+    return this.valueStore.values.reverse();
+  }
+}
 
 @Component({
-  selector: 'ng2-sandbox'
+  selector: 'ng2-sandbox',
+  injectables: [ValueService, ValueStore]
 })
 @View({
   template: `
     <section role="main">
-      <h1>{{ greeting }}, {{ name }}!</h1>
-      <label for="name">Your Name:
-        <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
-      </label>
+      <h1>Dependency Injection Example</h1>
+      <p>Values: {{valueService.getReversedValues()}}</p>
     </section>
   `
 })
 class App {
-  greeting:string;
-  name:string;
+  valueService:ValueService;
 
-  constructor() {
-    this.greeting = 'Hello';
-    this.name = 'World';
-  }
-
-  setName(name) {
-    this.name = name;
+  constructor(@Inject(ValueService) valueService:ValueService) {
+    this.valueService = valueService;
   }
 }
 
