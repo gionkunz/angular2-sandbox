@@ -1,43 +1,56 @@
 import {Component, View, bootstrap} from 'angular2/angular2';
-import {Inject} from 'angular2/di';
+import {Inject, bind} from 'angular2/di';
 
-class ValueStore {
-  values:Array<number>;
-
-  constructor() {
-    this.values = [1, 2, 3, 4];
+class Greeter {
+  greet() {
+    throw new Error('Abstract method!');
   }
 }
 
-class ValueService {
-  valueStore:ValueStore;
+class FriendlyGreeter extends Greeter {
+  greet() {
+    return 'Hi there my friend!';
+  }
+}
 
-  constructor(@Inject(ValueStore) valueStore:ValueStore) {
-    this.valueStore = valueStore;
+class RudeGreeter extends Greeter {
+  greet() {
+    return 'Hey you bastard!';
+  }
+}
+
+class GreetingService {
+  greeter;
+
+  constructor(@Inject(Greeter) greeter:Greeter) {
+    this.greeter = greeter;
   }
 
-  getReversedValues() {
-    return this.valueStore.values.reverse();
+  getGreeting() {
+    return this.greeter.greet();
   }
 }
 
 @Component({
   selector: 'ng2-sandbox',
-  injectables: [ValueService, ValueStore]
+  injectables: [
+    bind(Greeter).toClass(FriendlyGreeter),
+    GreetingService
+  ]
 })
 @View({
   template: `
     <section role="main">
       <h1>Dependency Injection Example</h1>
-      <p>Values: {{valueService.getReversedValues()}}</p>
+      <p>Values: {{greetingService.getGreeting()}}</p>
     </section>
   `
 })
 class App {
-  valueService:ValueService;
+  greetingService:GreetingService;
 
-  constructor(@Inject(ValueService) valueService:ValueService) {
-    this.valueService = valueService;
+  constructor(@Inject(GreetingService) greetingService:GreetingService) {
+    this.greetingService = greetingService;
   }
 }
 
