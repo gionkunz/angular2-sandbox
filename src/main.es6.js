@@ -1,19 +1,21 @@
 import {Component, View, bootstrap} from 'angular2/angular2';
-import {Inject} from 'angular2/di';
+import {Inject, InjectLazy} from 'angular2/di';
 
 class ValueStore {
   values:Array<number>;
 
   constructor() {
     this.values = [1, 2, 3, 4];
+    console.log('Value store was constructed');
   }
 }
 
 class ValueService {
   valueStore:ValueStore;
 
-  constructor(@Inject(ValueStore) valueStore:ValueStore) {
-    this.valueStore = valueStore;
+  constructor(@InjectLazy(ValueStore) valueStoreFactory:Function) {
+    console.log('Calling value store lazy factory');
+    this.valueStore = valueStoreFactory();
   }
 
   getReversedValues() {
@@ -28,7 +30,7 @@ class ValueService {
 @View({
   template: `
     <section role="main">
-      <h1>Dependency Injection Example</h1>
+      <h1>Lazy Dependency Injection Example</h1>
       <p>Values: {{valueService.getReversedValues()}}</p>
     </section>
   `
