@@ -1,29 +1,20 @@
 import {Component, View, bootstrap} from 'angular2/angular2';
 
 @Component({
-  selector: 'ng2-sandbox'
+  selector: 'app'
 })
 @View({
   template: `
-    <section role="main">
-      <h1>{{ greeting }}, {{ name }}!</h1>
-      <label for="name">Your Name:
-        <input type="text" [value]="name" (keyup)="setName($event.target.value)"/>
-      </label>
-    </section>
+    <div>
+      <h1>Hello {{ name }}!</h1>
+    </div>
   `
 })
 class App {
-  greeting:string;
   name:string;
 
   constructor() {
-    this.greeting = 'Hello';
     this.name = 'World';
-  }
-
-  setName(name) {
-    this.name = name;
   }
 }
 
